@@ -16,11 +16,11 @@ namespace SqlServerEntityFramework
                 var name = Console.ReadLine();
 
                 var blog = new Blog { Name = name };
-                db.Set<Blog>().Add(blog);
+                db.Blogs.Add(blog);
                 db.SaveChanges();
 
                 // Display all Blogs from the database
-                var query = from b in db.Set<Blog>()
+                var query = from b in db.Blogs
                             orderby b.Name
                     select b;
 
