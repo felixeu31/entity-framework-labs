@@ -15,3 +15,14 @@ Applying explicit migrations: [202210020802469_FirstMigration].
 Applying explicit migration: 202210020802469_FirstMigration.
 Running Seed method.
 ```
+
+Db is created by default in LocalDb
+https://learn.microsoft.com/en-us/ef/ef6/modeling/code-first/workflows/new-database#wheres-my-data
+(localdb)\MSSQLLocalDB
+
+Change DbContext to pass connection string
+
+```<language>
+PM> Update-Database -Verbose
+System.Data.SqlClient.SqlException (0x80131904): Error relacionado con la red o específico de la instancia mientras se establecía una conexión con el servidor SQL Server. No se encontró el servidor o éste no estaba accesible. Compruebe que el nombre de la instancia es correcto y que SQL Server está configurado para admitir conexiones remotas. (provider: Named Pipes Provider, error: 40 - No se pudo abrir una conexión con SQL Server) ---> System.ComponentModel.Win32Exception (0x80004005): No se ha encontrado la ruta de acceso de la red
+```
