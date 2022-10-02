@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SqlServerEntityFramework.Context;
 using SqlServerEntityFramework.Model;
 
@@ -19,12 +16,12 @@ namespace SqlServerEntityFramework
                 var name = Console.ReadLine();
 
                 var blog = new Blog { Name = name };
-                db.Blogs.Add(blog);
+                db.Set<Blog>().Add(blog);
                 db.SaveChanges();
 
                 // Display all Blogs from the database
-                var query = from b in db.Blogs
-                    orderby b.Name
+                var query = from b in db.Set<Blog>()
+                            orderby b.Name
                     select b;
 
                 Console.WriteLine("All blogs in the database:");

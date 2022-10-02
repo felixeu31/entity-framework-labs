@@ -12,8 +12,8 @@ namespace SqlServerEntityFramework.Context
             
         }
 
-        public DbSet<Blog> Blogs { get; set; }
-        public DbSet<Post> Posts { get; set; }
+        //public DbSet<Blog> Blogs { get; set; }
+        //public DbSet<Post> Posts { get; set; }
 
         protected sealed override void OnModelCreating(DbModelBuilder modelBuilder)
         {
