@@ -53,6 +53,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configurations\BlogEntityTypeConfiguration.cs" />
+    <Compile Include="Configurations\PostEntityTypeConfiguration.cs" />
     <Compile Include="Context\BloggingContext.cs" />
     <Compile Include="Migrations\202210020802469_FirstMigration.cs" />
     <Compile Include="Migrations\202210020802469_FirstMigration.designer.cs">
