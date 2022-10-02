@@ -54,6 +54,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context\BloggingContext.cs" />
+    <Compile Include="Migrations\202210020802469_FirstMigration.cs" />
+    <Compile Include="Migrations\202210020802469_FirstMigration.designer.cs">
+      <DependentUpon>202210020802469_FirstMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Blog.cs" />
     <Compile Include="Model\Post.cs" />
     <Compile Include="Program.cs" />
@@ -62,9 +67,14 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Readme-dev-diary.md" />
     <None Include="README.md" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202210020802469_FirstMigration.resx">
+      <DependentUpon>202210020802469_FirstMigration.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
