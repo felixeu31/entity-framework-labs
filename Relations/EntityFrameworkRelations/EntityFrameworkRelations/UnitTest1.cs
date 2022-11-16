@@ -1,3 +1,4 @@
+using EntityFrameworkRelations.Context;
 using EntityFrameworkRelations.DataModel;
 
 namespace EntityFrameworkRelations
@@ -9,12 +10,8 @@ namespace EntityFrameworkRelations
         [Fact]
         public void InsertAndRetrieveAuthor()
         {
-            using (var db = new BookStoreContext())
+            using (var db = new BookStoreDbContext())
             {
-                // Create and save a new Blog
-                Console.Write("Enter a name for a new Blog: ");
-                var name = Console.ReadLine();
-
                 var authorId = Guid.NewGuid();
                 var authorName = "name";
                 var author = new Author { Name = authorName, AuthorId = authorId};
@@ -22,10 +19,10 @@ namespace EntityFrameworkRelations
                 db.SaveChanges();
 
                 // Display all Authors from the database
-                Author authorFromDb = db.Authors.AsQueryable().FirsOrDefault(x => x.AuthorId == authorId);
+                Author authorFromDb = db.Authors.AsQueryable().FirstOrDefault(x => x.AuthorId == authorId);
 
                 Assert.NotNull(authorFromDb);
-                Assert.Equal(authorName, authorFromDb.Name);
+                Assert.Equal(authorName, authorFromDb?.Name);
             }
         }
     }

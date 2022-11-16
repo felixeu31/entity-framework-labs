@@ -5,4 +5,9 @@
 - Write basic test insert and get
 - Create data model
 - Install EF
-- Run migrations
+	- Install-Package Microsoft.EntityFrameworkCore.SqlServer, Install-Package Microsoft.EntityFrameworkCore.Tools
+- Create DbContext
+	- Add configuration
+- Run migrations 
+	- Add-Migration
+	- Update-Database
