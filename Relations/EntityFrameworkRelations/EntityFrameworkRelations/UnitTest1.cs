@@ -15,7 +15,7 @@ namespace EntityFrameworkRelations
             {
                 var authorId = Guid.NewGuid();
                 var authorName = "name";
-                var author = new Author { Name = authorName, AuthorId = authorId};
+                var author = new Author { Name = authorName, AuthorId = authorId };
                 db.Authors.Add(author);
                 db.SaveChanges();
 
@@ -34,7 +34,7 @@ namespace EntityFrameworkRelations
             using (var db = new BookStoreDbContext())
             {
                 var bookId = Guid.NewGuid();
-                var bookName = $"AuthorName_{bookId.ToString()}";
+                var bookName = $"BookName_{bookId.ToString()}";
                 var book = new Book { Name = bookName, BookId = bookId };
 
                 var authorId = Guid.NewGuid();
@@ -59,12 +59,12 @@ namespace EntityFrameworkRelations
         }
 
         [Fact]
-        public void AddingABook_WhenBookIdAlreadyExisting_ShouldThrowException()
+        public void AddingABook_WhenBookIdAlreadyExisting_ShouldThrowInvalidOperationException()
         {
             using (var db = new BookStoreDbContext())
             {
                 var bookId = Guid.NewGuid();
-                var bookName = $"AuthorName_{bookId.ToString()}";
+                var bookName = $"BookName_{bookId.ToString()}";
                 var book = new Book { Name = bookName, BookId = bookId };
 
                 var authorId = Guid.NewGuid();
@@ -82,7 +82,7 @@ namespace EntityFrameworkRelations
                     .AsQueryable()
                     .FirstOrDefault(x => x.AuthorId == authorId);
 
-                var repeatedBook = new Book { Name = $"{ bookName }_Repeated", BookId = bookId };
+                var repeatedBook = new Book { Name = $"{bookName}_Repeated", BookId = bookId };
                 authorFromDb.Books.Add(repeatedBook);
 
                 Action action = () => db.SaveChanges();
@@ -94,6 +94,43 @@ namespace EntityFrameworkRelations
                 // Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see the conflicting key values.
 
 
+            }
+
+        }
+
+        [Fact]
+        public void AddingABook_WhenBookIdAlreadyExisting_ShouldThrowDbUpdateException()
+        {
+            var bookId = Guid.NewGuid();
+            var bookName = $"BookName_{bookId.ToString()}";
+            var authorId = Guid.NewGuid();
+            var authorName = $"AuthorName_{authorId.ToString()}";
+
+            using (var db = new BookStoreDbContext())
+            {
+                var book = new Book { Name = bookName, BookId = bookId };
+                var author = new Author { Name = authorName, AuthorId = authorId };
+                author.Books.Add(book);
+                db.Authors.Add(author);
+
+                db.SaveChanges();
+            }
+
+            using (var db = new BookStoreDbContext())
+            {
+                var repeatedBook = new Book { Name = $"{bookName}_Repeated", BookId = bookId };
+                db.Books.Add(repeatedBook);
+
+                Action action = () => db.SaveChanges();
+
+                var ex = Assert.Throws<Microsoft.EntityFrameworkCore.DbUpdateException>(action);
+
+                //ex.Message
+                //An error occurred while saving the entity changes. See the inner exception for details.
+
+                // ex.InnerException.Message
+                // Violation of PRIMARY KEY constraint 'PK_Books'.Cannot insert duplicate key in object 'dbo.Books'.The duplicate key value is (5f6888bf - 97e2 - 49b6 - 9eb3 - 4de84429f2d0).
+                // The statement has been terminated.
             }
         }
     }
