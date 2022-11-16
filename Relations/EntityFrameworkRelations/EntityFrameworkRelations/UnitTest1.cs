@@ -57,5 +57,44 @@ namespace EntityFrameworkRelations
                 Assert.Equal(1, authorFromDb.Books.Count);
             }
         }
+
+        [Fact]
+        public void AddingABook_WhenBookIdAlreadyExisting_ShouldThrowException()
+        {
+            using (var db = new BookStoreDbContext())
+            {
+                var bookId = Guid.NewGuid();
+                var bookName = $"AuthorName_{bookId.ToString()}";
+                var book = new Book { Name = bookName, BookId = bookId };
+
+                var authorId = Guid.NewGuid();
+                var authorName = $"AuthorName_{authorId.ToString()}";
+                var author = new Author { Name = authorName, AuthorId = authorId };
+
+                author.Books.Add(book);
+                db.Authors.Add(author);
+
+                db.SaveChanges();
+
+                // Display all Authors from the database
+                Author authorFromDb = db.Authors
+                    .Include(x => x.Books)
+                    .AsQueryable()
+                    .FirstOrDefault(x => x.AuthorId == authorId);
+
+                var repeatedBook = new Book { Name = $"{ bookName }_Repeated", BookId = bookId };
+                authorFromDb.Books.Add(repeatedBook);
+
+                Action action = () => db.SaveChanges();
+
+                var ex = Assert.Throws<InvalidOperationException>(action);
+                // ex.Message:
+                // The instance of entity type 'Book' cannot be tracked because another instance with the same key value for {'BookId'} is already being tracked.
+                // When attaching existing entities, ensure that only one entity instance with a given key value is attached.
+                // Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see the conflicting key values.
+
+
+            }
+        }
     }
 }
