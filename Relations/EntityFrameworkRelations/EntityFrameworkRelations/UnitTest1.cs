@@ -205,7 +205,7 @@ namespace EntityFrameworkRelations
                 var author2 = new Author { Name = author2Name, AuthorId = author2Id };
 
                 var existingBook = db.Books.FirstOrDefault(x => x.BookId == bookId);
-                
+
                 Assert.Equal(authorId, existingBook.AuthorId);
 
                 author2.Books.Add(existingBook);
@@ -213,6 +213,123 @@ namespace EntityFrameworkRelations
                 db.SaveChanges();
 
                 Assert.Equal(author2Id, existingBook.AuthorId);
+            }
+        }
+
+        [Fact]
+        public void ChangingBookAuthorForeignKey_ShouldChangeBookAuthor()
+        {
+            var bookId = Guid.NewGuid();
+            var bookName = $"BookName_{bookId.ToString()}";
+            var authorId = Guid.NewGuid();
+            var authorName = $"AuthorName_{authorId.ToString()}";
+            var author2Id = Guid.NewGuid();
+            var author2Name = $"Author2Name_{authorId.ToString()}";
+
+            using (var db = new BookStoreDbContext())
+            {
+                var book = new Book { Name = bookName, BookId = bookId };
+                var author = new Author { Name = authorName, AuthorId = authorId };
+                author.Books.Add(book);
+                db.Authors.Add(author);
+
+                var author2 = new Author { Name = author2Name, AuthorId = author2Id };
+                db.Authors.Add(author2);
+
+                db.SaveChanges();
+            }
+
+            using (var db = new BookStoreDbContext())
+            {
+                var authors = db.Authors.Where(x => x.AuthorId == authorId || x.AuthorId == author2Id).ToList();
+                var existingBook = db.Books.Include(x => x.Author).Single(x => x.BookId == bookId);
+
+                existingBook.AuthorId = author2Id;
+
+                db.SaveChanges();
+
+                Assert.Equal(author2Id, existingBook.AuthorId);
+                Assert.Equal(author2Id, existingBook.Author.AuthorId);
+            }
+
+        }
+
+        [Fact]
+        public void ChangingBookAuthorNavigationProperty_ShouldChangeBookAuthor()
+        {
+            var bookId = Guid.NewGuid();
+            var bookName = $"BookName_{bookId.ToString()}";
+            var authorId = Guid.NewGuid();
+            var authorName = $"AuthorName_{authorId.ToString()}";
+            var author2Id = Guid.NewGuid();
+            var author2Name = $"Author2Name_{authorId.ToString()}";
+
+            using (var db = new BookStoreDbContext())
+            {
+                var book = new Book { Name = bookName, BookId = bookId };
+                var author = new Author { Name = authorName, AuthorId = authorId };
+                author.Books.Add(book);
+                db.Authors.Add(author);
+
+                var author2 = new Author { Name = author2Name, AuthorId = author2Id };
+                db.Authors.Add(author2);
+
+                db.SaveChanges();
+            }
+
+            using (var db = new BookStoreDbContext())
+            {
+                var author2 = db.Authors.Where(x => x.AuthorId == author2Id).Single();
+                var existingBook = db.Books.Include(x => x.Author).Single(x => x.BookId == bookId);
+
+                existingBook.Author = author2;
+
+                db.SaveChanges();
+
+                Assert.Equal(author2Id, existingBook.AuthorId);
+                Assert.Equal(author2Id, existingBook.Author.AuthorId);
+            }
+        }
+
+        [Fact]
+        public void ChangingBookAuthorNavigationPropertyAndForeignKey_ShouldChangeBookAuthor_WithTheNavigationPropertyChangePrevailing()
+        {
+            var bookId = Guid.NewGuid();
+            var bookName = $"BookName_{bookId.ToString()}";
+            var authorId = Guid.NewGuid();
+            var authorName = $"AuthorName_{authorId.ToString()}";
+            var author2Id = Guid.NewGuid();
+            var author2Name = $"Author2Name_{authorId.ToString()}";
+            var author3Id = Guid.NewGuid();
+            var author3Name = $"Author3Name_{authorId.ToString()}";
+
+            using (var db = new BookStoreDbContext())
+            {
+                var book = new Book { Name = bookName, BookId = bookId };
+                var author = new Author { Name = authorName, AuthorId = authorId };
+                author.Books.Add(book);
+                db.Authors.Add(author);
+
+                var author2 = new Author { Name = author2Name, AuthorId = author2Id };
+                db.Authors.Add(author2);
+                var author3 = new Author { Name = author3Name, AuthorId = author3Id };
+                db.Authors.Add(author3);
+
+                db.SaveChanges();
+            }
+
+            using (var db = new BookStoreDbContext())
+            {
+                var author2 = db.Authors.Where(x => x.AuthorId == author2Id).Single();
+                var existingBook = db.Books.Include(x => x.Author).Single(x => x.BookId == bookId);
+
+                existingBook.Author = author2;
+                existingBook.AuthorId = author3Id;
+
+                db.SaveChanges();
+
+                Assert.Equal(author2Id, existingBook.AuthorId);
+                Assert.Equal(author2Id, existingBook.Author.AuthorId);
             }
         }
     }
