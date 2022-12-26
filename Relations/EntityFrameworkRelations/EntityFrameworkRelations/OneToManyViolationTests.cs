@@ -127,7 +127,7 @@ namespace EntityFrameworkRelations
         /// See: https://stackoverflow.com/questions/63706223/entity-framework-association-between-entity-types-has-been-severed-problem
         /// </summary>
         [Fact]
-        public void RemovingChildFromCollection_LeavesChildOrphan_ThrowingInvalidOperationException()
+        public void RemovingChildFromCollection_WhenNoCascadeConfig_LeavesChildOrphanThrowingInvalidOperationException()
         {
             var book1Id = Guid.NewGuid();
             var book1Name = $"Book1Name_{book1Id.ToString()}";
@@ -165,7 +165,7 @@ namespace EntityFrameworkRelations
         }
 
         [Fact]
-        public void RemovingFatherNavigationProperty_LeavesChildOrphan_ThrowingInvalidOperationException()
+        public void RemovingFatherNavigationProperty_WhenNoCascadeConfig_LeavesChildOrphanThrowingInvalidOperationException()
         {
             var book1Id = Guid.NewGuid();
             var book1Name = $"Book1Name_{book1Id.ToString()}";
