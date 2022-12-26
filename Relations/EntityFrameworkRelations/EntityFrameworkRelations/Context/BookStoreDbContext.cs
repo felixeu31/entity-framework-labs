@@ -11,6 +11,7 @@ namespace EntityFrameworkRelations.Context
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=BookStoreLab");
+            optionsBuilder.EnableSensitiveDataLogging();
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -19,6 +20,7 @@ namespace EntityFrameworkRelations.Context
                 .WithMany(t => t.Books)
                 .HasForeignKey(p => p.AuthorId)
                 .OnDelete(DeleteBehavior.Restrict);
+                //.OnDelete(DeleteBehavior.Cascade); //This line will cause cascade delete on navigation property removal (no orphan relation violation)
         }
     }
 }

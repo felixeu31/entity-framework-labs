@@ -123,5 +123,85 @@ namespace EntityFrameworkRelations
             }
         }
 
+        /// <summary>
+        /// See: https://stackoverflow.com/questions/63706223/entity-framework-association-between-entity-types-has-been-severed-problem
+        /// </summary>
+        [Fact]
+        public void RemovingChildFromCollection_LeavesChildOrphan_ThrowingInvalidOperationException()
+        {
+            var book1Id = Guid.NewGuid();
+            var book1Name = $"Book1Name_{book1Id.ToString()}";
+            var author1Id = Guid.NewGuid();
+            var author1Name = $"Author1Name_{author1Id.ToString()}";
+
+            using (var db = new BookStoreDbContext())
+            {
+                var book = new Book { Name = book1Name, BookId = book1Id };
+                var author = new Author { Name = author1Name, AuthorId = author1Id };
+                author.Books.Add(book);
+                db.Authors.Add(author);
+
+                db.SaveChanges();
+            }
+
+            using (var db = new BookStoreDbContext())
+            {
+                var author = db.Authors
+                    .Include(x => x.Books)
+                    .Single(x => x.AuthorId == author1Id);
+
+                author.Books.Remove(author.Books.Single(x => x.BookId == book1Id));
+
+                Action action = () => db.SaveChanges();
+
+                var ex = Assert.Throws<System.InvalidOperationException>(action);
+
+                //The association between entity types 'Author' and 'Book' has been severed, but the relationship
+                //is either marked as required or is implicitly required because the foreign key is not nullable.
+                //If the dependent/child entity should be deleted when a required relationship is severed,
+                //configure the relationship to use cascade deletes.
+                //Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see the key values.
+            }
+        }
+
+        [Fact]
+        public void RemovingFatherNavigationProperty_LeavesChildOrphan_ThrowingInvalidOperationException()
+        {
+            var book1Id = Guid.NewGuid();
+            var book1Name = $"Book1Name_{book1Id.ToString()}";
+            var author1Id = Guid.NewGuid();
+            var author1Name = $"Author1Name_{author1Id.ToString()}";
+
+            using (var db = new BookStoreDbContext())
+            {
+                var book = new Book { Name = book1Name, BookId = book1Id };
+                var author = new Author { Name = author1Name, AuthorId = author1Id };
+                author.Books.Add(book);
+                db.Authors.Add(author);
+
+                db.SaveChanges();
+            }
+
+            using (var db = new BookStoreDbContext())
+            {
+                var author = db.Authors
+                    .Include(x => x.Books)
+                    .Single(x => x.AuthorId == author1Id);
+
+                var book = author.Books.Single(x => x.BookId == book1Id);
+
+                book.Author = null;
+
+                Action action = () => db.SaveChanges();
+
+                var ex = Assert.Throws<System.InvalidOperationException>(action);
+
+                //The association between entity types 'Author' and 'Book' has been severed, but the relationship
+                //is either marked as required or is implicitly required because the foreign key is not nullable.
+                //If the dependent/child entity should be deleted when a required relationship is severed,
+                //configure the relationship to use cascade deletes.
+                //Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see the key values.
+            }
+        }
     }
 }
