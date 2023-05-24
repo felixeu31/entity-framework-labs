@@ -1,7 +1,7 @@
 ﻿using QueryableBatch.Tests.Unit;
 using Microsoft.EntityFrameworkCore;
 
-namespace QueryableBatch.Tests.Integration
+namespace QueryableBatch.Tests.Infra
 {
     public class MyDbContext : DbContext
     {

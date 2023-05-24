@@ -2,7 +2,7 @@
 using Dapper;
 using Microsoft.EntityFrameworkCore;
 
-namespace QueryableBatch.Tests.Integration
+namespace QueryableBatch.Tests.Infra
 {
     public class IntegrationTestFixture : IDisposable
     {

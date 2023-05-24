@@ -2,9 +2,7 @@
 using Bogus;
 using FluentAssertions;
 using QueryableBatch.Tests.Unit;
-using System.Data.SqlClient;
-using Dapper;
-using Microsoft.EntityFrameworkCore;
+using QueryableBatch.Tests.Infra;
 
 namespace QueryableBatch.Tests.Integration
 {
