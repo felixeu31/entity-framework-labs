@@ -12,6 +12,7 @@
     <PackageReference Include="Bogus" Version="34.0.2" />
     <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="FluentAssertions" Version="6.11.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />

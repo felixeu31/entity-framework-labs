@@ -6,11 +6,11 @@ using QueryableBatch.Tests.Infra;
 
 namespace QueryableBatch.Tests.Integration
 {
-    public class QueryableBatchGeneratorIntegrationTest : IClassFixture<IntegrationTestFixture>
+    public class QueryableBatchGeneratorLocalDbIntegrationTest : IClassFixture<LocalDbIntegrationTestFixture>
     {
-        private readonly IntegrationTestFixture _fixture;
+        private readonly LocalDbIntegrationTestFixture _fixture;
 
-        public QueryableBatchGeneratorIntegrationTest(IntegrationTestFixture fixture)
+        public QueryableBatchGeneratorLocalDbIntegrationTest(LocalDbIntegrationTestFixture fixture)
         {
             this._fixture = fixture;
         }

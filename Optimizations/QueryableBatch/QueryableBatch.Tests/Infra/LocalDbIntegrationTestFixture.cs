@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace QueryableBatch.Tests.Infra
 {
-    public class IntegrationTestFixture : IDisposable
+    public class LocalDbIntegrationTestFixture : IDisposable
     {
         public readonly DbContextOptions<MyDbContext> DbContextOptions;
         private const string TestDatabaseName = "QueryableBatchTestDatabase";
 
-        public IntegrationTestFixture()
+        public LocalDbIntegrationTestFixture()
         {
             // Set up the DbContextOptions for your test database
             DbContextOptions = new DbContextOptionsBuilder<MyDbContext>()
