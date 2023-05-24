@@ -1,4 +1,5 @@
-﻿using Bogus;
+﻿using System.ComponentModel;
+using Bogus;
 using FluentAssertions;
 using QueryableBatch.Tests.Unit;
 using System.Data.SqlClient;
@@ -16,7 +17,7 @@ namespace QueryableBatch.Tests.Integration
             this._fixture = fixture;
         }
 
-        [Fact]
+        [Fact, Category("Integration")]
         public void ShouldGenerateListOfQueryablesForGivenQueryable()
         {
             // Arrange

@@ -1,11 +1,12 @@
 using Bogus;
 using FluentAssertions;
+using System.ComponentModel;
 
 namespace QueryableBatch.Tests.Unit
 {
     public class QueryableBatchGeneratorTest
     {
-        [Fact]
+        [Fact, Category("Unit")]
         public void ShouldGenerateListOfQueryablesForGivenQueryable()
         {
             // Arrange
