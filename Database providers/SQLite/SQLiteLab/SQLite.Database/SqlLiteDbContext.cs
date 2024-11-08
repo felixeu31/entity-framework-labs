@@ -4,9 +4,9 @@ namespace SQLite.Database;
 
 public class SqlLiteDbContext : DbContext
 {
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public SqlLiteDbContext(DbContextOptions<SqlLiteDbContext> options)
+        : base(options)
     {
-        optionsBuilder.UseSqlite("Data Source=sqlite.db");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
