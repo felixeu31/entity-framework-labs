@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34723.18
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLiteLab.Tests", "SQLiteLab.Tests\SQLiteLab.Tests.csproj", "{5F7923B5-57C6-4371-B21C-8C120D9295CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLite.Database", "SQLite.Database\SQLite.Database.csproj", "{CA76B4E8-370C-4567-8017-2E6CA83A689D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5F7923B5-57C6-4371-B21C-8C120D9295CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F7923B5-57C6-4371-B21C-8C120D9295CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F7923B5-57C6-4371-B21C-8C120D9295CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F7923B5-57C6-4371-B21C-8C120D9295CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA76B4E8-370C-4567-8017-2E6CA83A689D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA76B4E8-370C-4567-8017-2E6CA83A689D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA76B4E8-370C-4567-8017-2E6CA83A689D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA76B4E8-370C-4567-8017-2E6CA83A689D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F2ED39D3-F249-4EF5-B320-EC82579678F7}
+	EndGlobalSection
+EndGlobal
