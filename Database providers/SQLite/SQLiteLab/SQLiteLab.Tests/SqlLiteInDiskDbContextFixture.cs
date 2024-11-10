@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore;
 
 using SQLite.Database;
 
-public class SqlLiteDbContextFixture : IDisposable
+public class SqlLiteInDiskDbContextFixture : ISqlLiteDbContextFixture
 {
     public SqlLiteDbContext DbContext { get; private set; }
     private string _databaseFilePath;
 
-    public SqlLiteDbContextFixture()
+    public SqlLiteInDiskDbContextFixture()
     {
         // Create a unique filename for each test database
         _databaseFilePath = Path.Combine(Path.GetTempPath(), $"TestDb_{Guid.NewGuid()}.sqlite");

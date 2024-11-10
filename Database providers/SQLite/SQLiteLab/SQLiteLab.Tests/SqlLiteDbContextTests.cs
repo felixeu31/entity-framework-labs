@@ -6,12 +6,12 @@ namespace SQLiteLab.Tests;
 public class SqlLiteDbContextTests : IDisposable
 {
     private readonly SqlLiteDbContext _dbContext;
-    private readonly SqlLiteDbContextFixture _sqlLiteDbContextFixture;
+    private readonly ISqlLiteDbContextFixture _sqlLiteInDiskDbContextFixture;
 
     public SqlLiteDbContextTests()
     {
-        _sqlLiteDbContextFixture = new SqlLiteDbContextFixture();
-        _dbContext = _sqlLiteDbContextFixture.DbContext;
+        _sqlLiteInDiskDbContextFixture = new SqlLiteInMemoryDbContextFixture();
+        _dbContext = _sqlLiteInDiskDbContextFixture.DbContext;
     }
 
     [Fact]
@@ -52,6 +52,6 @@ public class SqlLiteDbContextTests : IDisposable
 
     public void Dispose()
     {
-        _sqlLiteDbContextFixture.Dispose();
+        _sqlLiteInDiskDbContextFixture.Dispose();
     }
 }
